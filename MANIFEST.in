@@ -1,0 +1,2 @@
+recursive-include flask_jasmine/templates/ *.html
+recursive-include flask_jasmine/static/ *
