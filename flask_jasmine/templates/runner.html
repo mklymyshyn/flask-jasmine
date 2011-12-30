@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <title>Flask: Jasmine Spec Runner</title>
+  <style type="text/css">
+    #head {
+        background-image:url({{ media_url }}Flask-Jasmine.png);
+        background-repeat:no-repeat;
+        padding-left:100px;
+        height:95px;
+        line-height:85px;
+        font-size:40px;
+        font-family:garamond, times;
+        font-weight:normal;
+        letter-spacing:-0.03em;
+    }
+
+    #head sup {
+        font-size:11px;
+        letter-spacing:0.03em;
+        font-weight:bold;
+    }
+
+    #head sup a {
+        color:#000;
+    }
+  </style>
+
+  <link rel="shortcut icon" type="image/png" href="{{ media_url }}jasmine/jasmine_favicon.png">
+
+  <link rel="stylesheet" type="text/css" href="{{ media_url }}jasmine/jasmine.css">
+  <script type="text/javascript" src="{{ media_url }}jasmine/jasmine.js"></script>
+  <script type="text/javascript" src="{{ media_url }}jasmine/jasmine-html.js"></script>
+
+  {% for spec in specs %}
+    <script type="text/javascript" src="{{ spec }}"></script>
+  {% endfor %}
+
+  {% for source in sources %}
+    <script type="text/javascript" src="{{ source }}"></script>
+  {% endfor %}
+
+
+  <div id="head">
+    <strong>Flask-Jasmine</strong> Test Runner
+    <sup><a href="">Flask-Jasmine</a></sup>
+    <sup><a href="http://pivotal.github.com/jasmine/">Jasmine website</a></sup>
+  </div>
+
+
+  <script type="text/javascript">
+    (function() {
+      var jasmineEnv = jasmine.getEnv();
+      jasmineEnv.updateInterval = 1000;
+
+      var trivialReporter = new jasmine.TrivialReporter();
+
+      jasmineEnv.addReporter(trivialReporter);
+
+      jasmineEnv.specFilter = function(spec) {
+        return trivialReporter.specFilter(spec);
+      };
+
+      var currentWindowOnload = window.onload;
+
+      window.onload = function() {
+        if (currentWindowOnload) {
+          currentWindowOnload();
+        }
+        execJasmine();
+      };
+
+      function execJasmine() {
+        jasmineEnv.execute();
+      }
+
+    })();
+  </script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,6 @@
+Flask-Jasmine
+-------------
+
+This is extension to execute BDD tests with Jasmine BDD Framework.
+Also extension support for Bundles created by ``Flask-Assets``.
+
