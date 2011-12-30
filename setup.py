@@ -12,7 +12,7 @@ from setuptools import setup
 setup(
     name='Flask-Jasmine',
     version='1.0',
-    url='http://example.com/flask-sqlite3/',
+    url='https://github.com/joymax/flask-jasmine',
     license='BSD',
     author='Maksym Klymyshyn',
     author_email='klymyshyn@gmail.com',
