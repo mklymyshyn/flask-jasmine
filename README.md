@@ -8,11 +8,11 @@ Extension to execute **[Jasmine](http://pivotal.github.com/jasmine/)** JavaScrip
 
 Install the extension with one of the following commands:
 
-	easy_install Flask-Assets
+	easy_install Flask-Jasmine
 
 or alternatively if you have pip installed:
 	
-	pip install Flask-Assets
+	pip install Flask-Jasmine
 
 
 ## Usage
