@@ -8,63 +8,71 @@ Extension to execute **[Jasmine](http://pivotal.github.com/jasmine/)** JavaScrip
 
 Install the extension with one of the following commands:
 
-	easy_install Flask-Jasmine
+```bash
+easy_install Flask-Jasmine
+```
 
 or alternatively if you have pip installed:
-	
-	pip install Flask-Jasmine
 
+```bash
+pip install Flask-Jasmine
+```
 
 ## Usage
 
 You initialize app by creating Jasmine instance and set specs and sources of your JavaScript:
 
-	from flask import Flask
-	from flask.ext.jasmine import Jasmine
+```python
 
-	app = Flask('sample_app')
+from flask import Flask
+from flask.ext.jasmine import Jasmine
 
-	jasmine = Jasmine(app)
+app = Flask('sample_app')
 
-    jasmine.specs(
-        'src/specs/spec1.js',
-        'src/specs/spec2.js',
-    )
+jasmine = Jasmine(app)
 
-    jasmine.sources(
-        'src/js/file1.js'
-        'src/js/file2.js'
-    )
+jasmine.specs(
+    'src/specs/spec1.js',
+    'src/specs/spec2.js',
+)
+
+jasmine.sources(
+    'src/js/file1.js'
+    'src/js/file2.js'
+)
+```
 
 ### With Flask-Assets
 
 To using **Flask-Jasmine** with **Flask-Assets** you need to create instance of `Asset` 
 with name of appropriate `Bundle`. At the moment unnamed bundles are not supported.
 
-	from flask import Flask
-	from flask.ext.jasmine import Jasmine, Asset
-	from flaskext.assets import Environment, Bundle
+```python
 
-	app = Flask('sample_app')
+from flask import Flask
+from flask.ext.jasmine import Jasmine, Asset
+from flaskext.assets import Environment, Bundle
 
-	assets = Environment(app)	
-	bundle1 = Bundle(
-		'src/libs/jquery.cookie.js',
-		'src/libs/jquery.tmpl.js',	
-		output='utils.js',
-		filters='yui_js'
-	)
-	assets.register('utils', bundle1)
+app = Flask('sample_app')
 
-	jasmine = Jasmine(app)
-    jasmine.specs(
-        'src/specs/spec1.js',
-        'src/specs/spec2.js',
-    )
-    jasmine.sources(
-        Asset('utils')
-    )
+assets = Environment(app)   
+bundle1 = Bundle(
+    'src/libs/jquery.cookie.js',
+    'src/libs/jquery.tmpl.js',  
+    output='utils.js',
+    filters='yui_js'
+)
+assets.register('utils', bundle1)
 
+jasmine = Jasmine(app)
+jasmine.specs(
+    'src/specs/spec1.js',
+    'src/specs/spec2.js',
+)
+jasmine.sources(
+    Asset('utils')
+)
+```
 
 ## Start tests
 
