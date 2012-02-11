@@ -74,16 +74,14 @@ class Jasmine(object):
 
         for item in data:
             if isinstance(item, (str, unicode)):
-                #lst.append("%s/%s" % (self.app.static_url_path, item))
-                lst.append(item)
+                lst.append("%s/%s" % (self.app.static_url_path, item))
                 continue
 
             if isinstance(item, Asset):
                 contents = item.build(self.app)
                 for asset_item in contents:
                     lst.append(asset_item)
-                    #lst.append(
-                    #    "%s/%s" % (self.app.static_url_path, asset_item))
+
         return lst
 
     def runner_view(self):

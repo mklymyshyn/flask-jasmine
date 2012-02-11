@@ -11,7 +11,7 @@ from setuptools import setup
 
 setup(
     name='Flask-Jasmine',
-    version='1.0',
+    version='1.2',
     url='https://github.com/joymax/flask-jasmine',
     license='BSD',
     author='Maksym Klymyshyn',
