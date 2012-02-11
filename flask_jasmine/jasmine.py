@@ -22,7 +22,7 @@ class Asset(object):
             raise ImportError(u"Looks like Flask-Assets not initialized")
 
         try:
-            contents = bundles.get(self.name).contents
+            contents = bundles.get(self.name).urls()
         except AttributeError:
             raise ValueError(
             u"Can't find `%s` Flask-Assets bundle" % self.name)
@@ -47,7 +47,7 @@ class Jasmine(object):
         self.jinja_env = Environment(
             autoescape=True,
             extensions=['jinja2.ext.i18n'],
-            loader=PackageLoader(__name__, 'templates'))
+            loader=PackageLoader('flask_jasmine', 'templates'))
 
         app.add_url_rule('%s<path:filename>' % self._media_url,
             '_jasmine.static', self.send_static_file)
@@ -74,15 +74,16 @@ class Jasmine(object):
 
         for item in data:
             if isinstance(item, (str, unicode)):
-                lst.append("%s/%s" % (self.app.static_url_path, item))
+                #lst.append("%s/%s" % (self.app.static_url_path, item))
+                lst.append(item)
                 continue
 
             if isinstance(item, Asset):
                 contents = item.build(self.app)
                 for asset_item in contents:
-                    lst.append(
-                        "%s/%s" % (self.app.static_url_path, asset_item))
-
+                    lst.append(asset_item)
+                    #lst.append(
+                    #    "%s/%s" % (self.app.static_url_path, asset_item))
         return lst
 
     def runner_view(self):
