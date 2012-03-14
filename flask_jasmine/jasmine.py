@@ -6,7 +6,7 @@ from jinja2 import Environment, PackageLoader
 from flask import Blueprint, send_from_directory
 
 
-__all__ = ('Jasmine', 'Asset')
+__all__ = ('Jasmine', 'Asset', 'JasmineSpecfile')
 
 module = Blueprint('jasmine', __name__)
 
@@ -14,15 +14,38 @@ module = Blueprint('jasmine', __name__)
 class Asset(object):
     def __init__(self, name):
         self.name = name
+        self.app = None
 
-    def build(self, app):
+    @property
+    def bundles(self):
         try:
-            bundles = app.jinja_env.assets_environment._named_bundles
+            bundles = self.app.jinja_env.assets_environment._named_bundles
         except AttributeError:
             raise ImportError(u"Looks like Flask-Assets not initialized")
 
+        return bundles
+
+    def contents(self, app):
+        """
+        Here is direty hack to convert urls
+        to absolute paths. Webassets aren't friendly
+        enough to write proper code
+        """
+        self.app = app
+        urls = self.build(app)
+        rv = []
+        for url in urls:
+            rv.append("%s/%s" % (
+                app.static_folder,
+                url[len(app.config.get('ASSETS_URL')):]
+            ))
+
+        return rv
+
+    def build(self, app):
+        self.app = app
         try:
-            contents = bundles.get(self.name).urls()
+            contents = self.bundles.get(self.name).urls()
         except AttributeError:
             raise ValueError(
             u"Can't find `%s` Flask-Assets bundle" % self.name)
@@ -103,3 +126,71 @@ class Jasmine(object):
         Send a static file from the flask-jasmine static directory
         """
         return send_from_directory(self._static_dir, filename)
+
+
+# In case Flask-Script available we
+# define custom flask-script command to
+# generate specrunner
+
+# NB: this is shitty implementation/idea checking
+# should be cleaned up
+try:
+    from flask.ext.script import Command
+
+    class JasmineSpecfile(Command):
+        """Command to generate SpecRunner for Jasmine
+        """
+
+        def run(self):
+            from flask.ext import jasmine
+            from jinja2 import Template
+            import os
+
+            # we need more elegant solution
+            app = self.app
+
+            # set ASSETS_DEBUG to True to
+            # avoid compilation of source codes
+            app.config['ASSETS_DEBUG'] = True
+
+            sources = app.config.get('JASMINE_SOURCES', [])
+            specs = [os.path.join(app.static_folder, fl) \
+                        for fl in app.config.get('JASMINE_SPECS', [])]
+            specs.extend(sources)
+
+            lib_base = os.path.join(
+                os.path.dirname(jasmine.__file__),
+                'static',
+                'jasmine'
+            )
+            lib_files = [os.path.join(lib_base, fl) for fl in (
+                'jasmine.js',
+                'jasmine-html.js',
+                'contrib/jasmine.console_reporter.js',
+                'contrib/jasmine.junit_reporter.js'
+            )]
+
+            files = []
+
+            for source in specs:
+                if isinstance(source, jasmine.Asset):
+                    files.extend(source.contents(app))
+                else:
+                    files.extend([source])
+
+            templates_path = os.path.join(
+                os.path.dirname(jasmine.__file__),
+                "templates"
+            )
+
+            template = Template(
+                open(os.path.join(
+                    templates_path,
+                    "SpecRunner.html"
+                )).read()
+            )
+
+            print template.render(files=files, jasmine=lib_files)
+
+except ImportError:
+    pass
