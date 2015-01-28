@@ -166,8 +166,9 @@ try:
             lib_files = [os.path.join(lib_base, fl) for fl in (
                 'jasmine.js',
                 'jasmine-html.js',
-                'contrib/jasmine.console_reporter.js',
-                'contrib/jasmine.junit_reporter.js'
+                'ConsoleReporter.js',
+                'contrib/junit_reporter.js'
+                'boot.js',
             )]
 
             files = []
