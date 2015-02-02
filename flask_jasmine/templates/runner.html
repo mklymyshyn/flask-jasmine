@@ -8,6 +8,7 @@
   <link rel="stylesheet" type="text/css" href="{{ media_url }}jasmine/jasmine.css">
   <script type="text/javascript" src="{{ media_url }}jasmine/jasmine.js"></script>
   <script type="text/javascript" src="{{ media_url }}jasmine/jasmine-html.js"></script>
+  <script type="text/javascript" src="{{ media_url }}jasmine/boot.js"></script>
 
   {% for spec in specs %}
     <script type="text/javascript" src="{{ spec }}"></script>
@@ -17,33 +18,6 @@
     <script type="text/javascript" src="{{ source }}"></script>
   {% endfor %}
 
-  <script type="text/javascript">
-    (function() {
-      var jasmineEnv = jasmine.getEnv();
-      jasmineEnv.updateInterval = 1000;
-
-      var reporter = new jasmine.HtmlReporter();
-
-      jasmineEnv.addReporter(reporter);
-
-      jasmineEnv.specFilter = function(spec) {
-        return reporter.specFilter(spec);
-      };
-
-      var currentWindowOnload = window.onload;
-
-      window.onload = function() {
-        if (currentWindowOnload) {
-          currentWindowOnload();
-        }
-        execJasmine();
-      };
-
-      function execJasmine() {
-        jasmineEnv.execute();
-      }
-    })();
-  </script>
 </head>
 <body>
 </body>
