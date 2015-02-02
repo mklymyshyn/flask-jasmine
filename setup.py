@@ -12,7 +12,7 @@ from setuptools import setup
 setup(
     name='Flask-Jasmine',
     version='2.1',
-    url='https://github.com/flask-jasmine',
+    url='https://github.com/joymax/flask-jasmine',
     license='BSD',
     author='Maksym Klymyshyn, Zak Johnson, Bradley Momberger',
     author_email='klymyshyn@gmail.com',
