@@ -1,6 +1,6 @@
 # Flask-Jasmine
 
-Extension to execute **[Jasmine](http://pivotal.github.com/jasmine/)** JavaScript Tests. At the moment it's a bit annoying to integrate Jasmine within well organized JS sources using **[Flask-Assets](http://flask-assets.readthedocs.org/en/latest/index.html)**
+Extension to execute **[Jasmine](https://jasmine.github.io/)** JavaScript Tests. At the moment it's a bit annoying to integrate Jasmine within well organized JS sources using **[Flask-Assets](http://flask-assets.readthedocs.org/en/latest/index.html)**
 
 **Flask-Jasmine** work only in **debug** mode of the App.
 
